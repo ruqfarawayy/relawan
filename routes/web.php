@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', 'login');
 
 Route::prefix('admin')
     ->group(function() {
         Route::get('/',[DashboardController::class, 'index'])
             ->name('dashboard');
         });
+
+
+
+require __DIR__.'/auth.php';

@@ -254,7 +254,7 @@
                 aria-expanded="false"
             >
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"
-                    >Douglas McGee</span
+                    >{{auth()->user()->name}}</span
                 >
                 <img
                     class="img-profile rounded-circle"

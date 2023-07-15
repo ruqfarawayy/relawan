@@ -1,17 +1,30 @@
 <!-- Sidebar -->
 <ul
-    class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+    class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion"
     id="accordionSidebar"
 >
+    <!-- Sidebar - Brand  Logo-->
+    <a
+        class="d-flex align-items-center justify-content-center"
+        href="{{ url('admin') }}"
+    >
+        <img
+            class="img-profile"
+            style="
+                width: 10rem;
+                display: flex;
+                justify-content: center;
+                margin: auto;
+            "
+            src="{{ url('logo.png') }}"
+        />
+    </a>
     <!-- Sidebar - Brand -->
     <a
         class="sidebar-brand d-flex align-items-center justify-content-center"
-        href="index.html"
+        href="{{ url('admin') }}"
     >
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">KAB BANYUMAS</div>
     </a>
 
     <!-- Divider -->
@@ -19,7 +32,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{{ url('admin') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a
         >
@@ -29,8 +42,14 @@
     <hr class="sidebar-divider" />
 
     <!-- Heading -->
-    <div class="sidebar-heading">Interface</div>
+    <div class="sidebar-heading">Menu Relawan</div>
     <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link" href="charts.html">
+            <i class="fas fa-duotone fa-users"></i>
+            <span>Data Relawan</span></a
+        >
+    </li>
     <li class="nav-item">
         <a
             class="nav-link collapsed"
