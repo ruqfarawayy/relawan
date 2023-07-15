@@ -15,10 +15,11 @@ class CreateVolunteersTable extends Migration
     {
         Schema::create('volunteers', function (Blueprint $table) {
             $table->id();
+            $table->string('nra')->unique();
             $table->string('name');
-            $table->unsignedInteger('specialty_id');
             $table->string('email')->unique();
             $table->string('phone');
+            $table->string('photo');
             $table->longText('address');
             $table->unsignedInteger('occupation_id');
             $table->unsignedInteger('education_id');

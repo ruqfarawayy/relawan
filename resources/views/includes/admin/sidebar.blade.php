@@ -45,7 +45,7 @@
     <div class="sidebar-heading">Menu Relawan</div>
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="{{route('volunteer.index')}}">
             <i class="fas fa-duotone fa-users"></i>
             <span>Data Relawan</span></a
         >
