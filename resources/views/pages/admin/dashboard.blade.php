@@ -17,7 +17,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Paket Travel</div>
+                                Jumlah Relawan</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
                         </div>
                         <div class="col-auto">
@@ -35,7 +35,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Transaksi</div>
+                                Relawan KSR</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">14</div>
                         </div>
                         <div class="col-auto">
@@ -52,7 +52,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pending
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Relawan TSR
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
@@ -75,7 +75,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Sukses</div>
+                                Jumlah Unit</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
                         </div>
                         <div class="col-auto">

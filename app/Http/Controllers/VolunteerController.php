@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\VolunteerRequest;
 use App\Models\Education;
 use App\Models\Occupation;
 use App\Models\Specialty;
@@ -53,9 +54,13 @@ class VolunteerController extends Controller
     //  * @param  \Illuminate\Http\Request  $request
     //  * @return \Illuminate\Http\Response
     //  */
-    public function store(Request $request)
+    public function store(VolunteerRequest $request)
     {
+        // dd($request);
         $data = $request->all();
+        $data['image'] = $request->file('photo')->store(
+            'assets/gallery', 'public'
+        );
 
         Volunteer::create($data);
         return redirect()->route('volunteer.index')->with('create', 'Data berhasil ditambahkan');
@@ -78,7 +83,7 @@ class VolunteerController extends Controller
     //  * @param  \App\Models\Volunteer  $volunteer
     //  * @return \Illuminate\Http\Response
     //  */
-    public function edit(Volunteer $volunteer)
+    public function edit(VolunteerRequest $volunteer)
     {
         return view('pages.admin.volunteer.edit',[
             'items' => $volunteer
@@ -92,7 +97,7 @@ class VolunteerController extends Controller
     //  * @param  \App\Models\Volunteer  $volunteer
     //  * @return \Illuminate\Http\Response
     //  */
-    public function update(Request $request, Volunteer $volunteer)
+    public function update(VolunteerRequest $request, Volunteer $volunteer)
     {
         $volunteer->update($request->all());
         return redirect()->route('volunteer.index')->with('create', 'Data berhasil ditambahkan');
@@ -104,7 +109,7 @@ class VolunteerController extends Controller
     //  * @param  \App\Models\Volunteer  $volunteer
     //  * @return \Illuminate\Http\Response
     //  */
-    public function destroy(Volunteer $volunteer)
+    public function destroy(VolunteerRequest $volunteer)
     {
         $volunteer->delete();
         return redirect()->route('volunteer.index')->with('create', 'Data berhasil dihapus');

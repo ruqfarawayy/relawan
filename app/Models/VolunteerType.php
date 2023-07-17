@@ -11,4 +11,5 @@ class VolunteerType extends Model
 {
     use SoftDeletes;
     use HasFactory;
+
 }
