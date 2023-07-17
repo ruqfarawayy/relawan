@@ -57,13 +57,18 @@ class VolunteerController extends Controller
     public function store(VolunteerRequest $request)
     {
         // dd($request);
-        $data = $request->all();
-        $data['image'] = $request->file('photo')->store(
-            'assets/gallery', 'public'
-        );
+        if ($request->hasFile('photo')){
+            // dd($request->file('photo'));
+            $data = $request->all();
+            $data['photo'] = $request->file('photo')->store(
+                'assets/gallery', 'public'
+            );
+            Volunteer::create($data);
+            return redirect()->route('volunteer.index')->with('create', 'Data berhasil ditambahkan');
+        } else {
+            return redirect()->route('volunteer.index')->with('create', 'Gagal Upload');
+        }
 
-        Volunteer::create($data);
-        return redirect()->route('volunteer.index')->with('create', 'Data berhasil ditambahkan');
     }
 
     // /**
@@ -83,10 +88,21 @@ class VolunteerController extends Controller
     //  * @param  \App\Models\Volunteer  $volunteer
     //  * @return \Illuminate\Http\Response
     //  */
-    public function edit(VolunteerRequest $volunteer)
+    public function edit($id)
     {
+        $volunteers = Volunteer::findOrFail($id);
+        $specialties = Specialty::all();
+        $occupations = Occupation::all();
+        $educations = Education::all();
+        $volunteerTypes = VolunteerType::all();
+        $units = Unit::all();
         return view('pages.admin.volunteer.edit',[
-            'items' => $volunteer
+            'volunteers' => $volunteers,
+            'specialties'=> $specialties,
+            'occupations' => $occupations,
+            'educations' => $educations,
+            'volunteerTypes' => $volunteerTypes,
+            'units' => $units
         ]);
     }
 
@@ -97,10 +113,22 @@ class VolunteerController extends Controller
     //  * @param  \App\Models\Volunteer  $volunteer
     //  * @return \Illuminate\Http\Response
     //  */
-    public function update(VolunteerRequest $request, Volunteer $volunteer)
+    public function update(VolunteerRequest $request, $id)
     {
-        $volunteer->update($request->all());
-        return redirect()->route('volunteer.index')->with('create', 'Data berhasil ditambahkan');
+
+        if ($request->hasFile('photo')){
+            // dd($request->file('photo'));
+            $data = $request->all();
+            $data['photo'] = $request->file('photo')->store(
+                'assets/gallery', 'public'
+            );
+            $items = Volunteer::findOrFail($id);
+            $items->update($data);
+
+            return redirect()->route('volunteer.index')->with('update', 'Data berhasil diubah');
+        } else {
+            return redirect()->route('volunteer.index')->with('update', 'Gagal diubah');
+        }
     }
 
     // /**

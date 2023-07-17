@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', 'login');
 
 Route::prefix('admin')
+    ->middleware(['auth'])
     ->group(function() {
         Route::get('/',[DashboardController::class, 'index'])
             ->name('dashboard');

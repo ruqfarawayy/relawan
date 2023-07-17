@@ -14,7 +14,7 @@ class Volunteer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'address', 'occupation_id', 'education_id', 'blood_type', 'gender', 'birth_date', 'unit_id', 'volunteer_type_id', 'status', 'photo'
+        'nra','name', 'email', 'phone', 'address', 'occupation_id', 'education_id', 'blood_type', 'gender', 'birth_date', 'unit_id', 'volunteer_type_id', 'status', 'photo'
     ];
 
   public function specialties(){

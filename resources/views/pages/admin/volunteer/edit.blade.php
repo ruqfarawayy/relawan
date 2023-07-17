@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Tambah Data Relawan</h1>
+        <h1 class="h3 mb-0 text-gray-800">Edit Data Relawan</h1>
     </div>
 
     @if ($errors->any())
@@ -18,8 +18,12 @@
 
     <div class="card shadow">
         <div class="card-body">
-            <form action=" {{ route('volunteer.store') }}" method="post" enctype="multipart/form-data">
-                @csrf
+            <form
+                action=" {{ route('volunteer.update', $volunteers->id) }}"
+                method="post"
+                enctype="multipart/form-data"
+            >
+                @method('PUT') @csrf
                 <div class="form-group">
                     <label for="nra">NRA</label>
                     <input
@@ -27,7 +31,7 @@
                         class="form-control"
                         name="nra"
                         placeholder="NRA"
-                        value="{{ old('nra') }}  "
+                        value="{{$volunteers->nra}}"
                     />
                 </div>
                 <div class="form-group">
@@ -37,32 +41,23 @@
                         class="form-control"
                         name="name"
                         placeholder="Name"
-                        value="{{ old('name') }}  "
+                        value="{{$volunteers->name}}"
                     />
                 </div>
                 <div class="form-group">
                     <label for="gender">Gender</label>
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="gender"
-                            id="male"
-                            value="m"
-                            checked
-                        />
+                        <input class="form-check-input" type="radio"
+                        name="gender" id="male" value="m"
+                        {{ $volunteers["gender"] === "m" ? "checked" : "" }}>
                         <label class="form-check-label" for="male">
                             Male
                         </label>
                     </div>
                     <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="gender"
-                            id="female"
-                            value="f"
-                        />
+                        <input class="form-check-input" type="radio"
+                        name="gender" id="female" value="f"
+                        {{ $volunteers["gender"] === "f" ? "checked" : "" }}>
                         <label class="form-check-label" for="female">
                             Female
                         </label>
@@ -75,7 +70,7 @@
                         class="form-control"
                         name="email"
                         placeholder="Email"
-                        value="{{ old('email') }}  "
+                        value="{{$volunteers->email}}"
                     />
                 </div>
                 <div class="form-group">
@@ -85,7 +80,7 @@
                         class="form-control"
                         name="phone"
                         placeholder="Masukkan No Hp"
-                        value="{{ old('phone') }}  "
+                        value="{{$volunteers->phone}}"
                     />
                 </div>
                 <div class="form-group">
@@ -95,8 +90,11 @@
                         class="form-control"
                         name="photo"
                         accept="image/*"
-                        required
+                        id="photo-input"
                     />
+                    @if ($volunteers['photo'])
+                    <span id="photo-name">{{ $volunteers["photo"] }}</span>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="address">Alamat</label>
@@ -105,7 +103,7 @@
                         class="form-control"
                         name="address"
                         placeholder="Address"
-                        value="{{ old('address') }}"
+                        value="{{$volunteers->address}}"
                     />
                 </div>
                 <div class="form-group">
@@ -113,9 +111,9 @@
                     <select name="occupation_id" required class="form-control">
                         <option value="">Pilih Pekerjaan</option>
                         @foreach ($occupations as $occupation)
-                        <option value="{{ $occupation->id }}">
-                            {{ $occupation->name }}
-                        </option>
+                            <option value="{{ $occupation->id }}" {{ $volunteers->occupation_id == $occupation->id ? 'selected' : '' }}>
+                                {{ $occupation->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -124,7 +122,7 @@
                     <select name="education_id" required class="form-control">
                         <option value="">Pilih Pendidikan</option>
                         @foreach ($educations as $education)
-                        <option value="{{ $education->id }}">
+                        <option value="{{ $education->id }}" {{ $volunteers->education_id == $education->id ? 'selected' : '' }}>
                             {{ $education->name }}
                         </option>
                         @endforeach
@@ -134,12 +132,12 @@
                     <label for="blood_type">Golongan Darah</label>
                     <select name="blood_type" required class="form-control">
                         <option value="">Pilih Golongan Darah</option>
-                        <option value="a">A</option>
-                        <option value="b">B</option>
-                        <option value="o">O</option>
-                        <option value="AB">AB</option>
+                        @foreach (['A', 'B', 'O', 'AB'] as $bloodType)
+                            <option value="{{ $bloodType }}" {{ $volunteers->blood_type == $bloodType ? 'selected' : '' }}>{{ $bloodType }}</option>
+                        @endforeach
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="birth_date">Tanggal Lahir</label>
                     <input
@@ -147,27 +145,33 @@
                         class="form-control"
                         name="birth_date"
                         placeholder="Tanggal Lahir"
-                        value="{{ old('birth_date') }}  "
+                        value="{{$volunteers->birth_date}}"
                     />
                 </div>
                 <div class="form-group">
-                    <label for="price">Unit</label>
+                    <label for="Unit">Unit</label>
                     <select name="unit_id" required class="form-control">
-                        <option value="">Pilih Unit</option>
-                        @foreach ($units as $unit)
-                        <option value="{{ $unit->id }}">
-                            {{ $unit->name }}
-                        </option>
-                        @endforeach
+                            <option value="">Pilih Unit</option>
+                            @foreach ($units as $unit)
+                            <option value="{{ $unit->id }}" {{ $volunteers->unit_id == $unit->id ? 'selected' : '' }}>
+                                {{ $unit->name }}
+                            </option>
+                            @endforeach
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="price">Tipe Relawan</label>
+                    <label for="volunteer_type_id">Tipe Relawan</label>
                     <select
                         name="volunteer_type_id"
                         required
                         class="form-control"
                     >
+                    <option value="">Pilih Tipe Relawan</option>
+                            @foreach ($volunteerTypes as $volunteerType)
+                            <option value="{{ $volunteerType->id }}" {{ $volunteers->volunteer_type_id == $volunteerType->id ? 'selected' : '' }}>
+                                {{ $volunteerType->name }}
+                            </option>
+                            @endforeach
                         <option value="">Pilih Tipe Relawan</option>
                         @foreach ($volunteerTypes as $volunteerType)
                         <option value="{{ $volunteerType->id }}">
@@ -177,40 +181,44 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="price">Status</label>
-                    <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="status"
-                            id="active"
-                            value="1"
-                            checked
-                        />
-                        <label class="form-check-label" for="active">
-                            Active
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="status"
-                            id="inactive"
-                            value="2"
-                        />
-                        <label class="form-check-label" for="inactive">
-                            Inactive
-                        </label>
-                    </div>
+                    <label for="status">Status</label>
+                    @foreach (['1' => 'Active', '2' => 'Inactive'] as $value => $label)
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="status"
+                                id="status-{{ $value }}"
+                                value="{{ $value }}"
+                                {{ $volunteers->status == $value ? 'checked' : '' }}
+                            />
+                            <label class="form-check-label" for="status-{{ $value }}">
+                                {{ $label }}
+                            </label>
+                        </div>
+                    @endforeach
                 </div>
 
+
                 <button type="submit" class="btn btn-primary btn-block">
-                    Simpan
+                    Ubah
                 </button>
             </form>
         </div>
     </div>
 </div>
 <!-- /.container-fluid -->
-@endsection
+@endsection @push('addon-script')
+<script>
+    const photoInput = document.getElementById("photo-input");
+    const photoName = document.getElementById("photo-name");
+
+    photoInput.addEventListener("change", () => {
+        if (photoInput.files.length > 0) {
+            photoName.textContent = photoInput.files[0].name;
+        } else {
+            photoName.textContent = "";
+        }
+    });
+</script>
+@endpush

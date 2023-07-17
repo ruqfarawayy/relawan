@@ -62,7 +62,7 @@
     </div>
 
     @include('includes.admin.scripts')
-
+    @stack('addon-script')
 </body>
 
 </html>
