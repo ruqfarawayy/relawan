@@ -23,7 +23,8 @@
                 method="post"
                 enctype="multipart/form-data"
             >
-                @method('PUT') @csrf
+                @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label for="nra">NRA</label>
                     <input
@@ -172,12 +173,6 @@
                                 {{ $volunteerType->name }}
                             </option>
                             @endforeach
-                        <option value="">Pilih Tipe Relawan</option>
-                        @foreach ($volunteerTypes as $volunteerType)
-                        <option value="{{ $volunteerType->id }}">
-                            {{ $volunteerType->name }}
-                        </option>
-                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">

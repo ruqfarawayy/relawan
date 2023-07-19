@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\FileEncryptionController;
 use App\Http\Controllers\VolunteerController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,7 @@ Route::prefix('admin')
         Route::get('/',[DashboardController::class, 'index'])
             ->name('dashboard');
         Route::resource('volunteer', VolunteerController::class);
+        Route::resource('file_encryption', FileEncryptionController::class);
         });
 
 

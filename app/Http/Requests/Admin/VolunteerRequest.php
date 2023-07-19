@@ -24,10 +24,10 @@ class VolunteerRequest extends FormRequest
     public function rules()
     {
         return [
-            'nra' => 'required|max:255',
+            'nra' => 'required|max:20',
             'name' => 'required|max:255',
             'email' => 'required|email',
-            'phone' => 'required|max:255',
+            'phone' => 'required|max:12',
             'address' => 'required|max:255',
             'occupation_id' => 'required',
             'education_id' => 'required',

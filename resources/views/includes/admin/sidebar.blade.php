@@ -28,7 +28,7 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="{{ url('admin') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-home"></i>
             <span>Dashboard</span></a
         >
     </li>
@@ -50,12 +50,25 @@
     <hr class="sidebar-divider" />
 
     <!-- Heading -->
-    <div class="sidebar-heading">Menu Surat Penugasan</div>
+    <div class="sidebar-heading">Menu Dokumen</div>
+
+     <!-- Nav Item - Tables -->
+     <li class="nav-item">
+        <a class="nav-link" href="{{ route('file_encryption.index') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Manajemen Dokumen</span></a
+        >
+    </li>
+     <!-- Divider -->
+     <hr class="sidebar-divider" />
+
+     <!-- Heading -->
+     <div class="sidebar-heading">Manajemen User</div>
 
     <li class="nav-item">
         <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Encrypt Pesan</span></a
+            <i class="fas fa-user-cog"></i>
+            <span>Manajemen User</span></a
         >
     </li>
     <li class="nav-item">
@@ -64,13 +77,7 @@
             <span>Decrypt Pesan</span></a
         >
     </li>
-    <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Manajemen Pesan</span></a
-        >
-    </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block" />

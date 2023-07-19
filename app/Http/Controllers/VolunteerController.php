@@ -56,9 +56,7 @@ class VolunteerController extends Controller
     //  */
     public function store(VolunteerRequest $request)
     {
-        // dd($request);
         if ($request->hasFile('photo')){
-            // dd($request->file('photo'));
             $data = $request->all();
             $data['photo'] = $request->file('photo')->store(
                 'assets/gallery', 'public'
@@ -115,20 +113,17 @@ class VolunteerController extends Controller
     //  */
     public function update(VolunteerRequest $request, $id)
     {
-
-        if ($request->hasFile('photo')){
-            // dd($request->file('photo'));
-            $data = $request->all();
-            $data['photo'] = $request->file('photo')->store(
-                'assets/gallery', 'public'
-            );
-            $items = Volunteer::findOrFail($id);
-            $items->update($data);
-
-            return redirect()->route('volunteer.index')->with('update', 'Data berhasil diubah');
-        } else {
-            return redirect()->route('volunteer.index')->with('update', 'Gagal diubah');
+        $data = $request->all();
+        $volunteer = Volunteer::findOrfail($id);
+        // dd($volunteer);
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo')->store('assets/gallery', 'public');
+            $data['photo'] = $photo;
         }
+        $volunteer->update($data);
+
+
+        return redirect()->route('volunteer.index')->with('update', 'Data berhasil diubah');
     }
 
     // /**
@@ -137,9 +132,9 @@ class VolunteerController extends Controller
     //  * @param  \App\Models\Volunteer  $volunteer
     //  * @return \Illuminate\Http\Response
     //  */
-    public function destroy(VolunteerRequest $volunteer)
+    public function destroy($id)
     {
-        $volunteer->delete();
-        return redirect()->route('volunteer.index')->with('create', 'Data berhasil dihapus');
+        Volunteer::findOrFail($id)->delete();
+        return redirect()->route('volunteer.index')->with('delete', 'Data berhasil dihapus');
     }
 }

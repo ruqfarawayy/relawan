@@ -2,7 +2,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between  mb-4">
         <h1 class="h3 mb-0 text-gray-800">Data Relawan</h1>
         <a
             href="{{ route('volunteer.create') }}"
@@ -144,9 +144,10 @@
                                                             class="col-form-label"
                                                             >Photo</label
                                                         >
+                                                        <br>
                                                         <img
                                                             src="{{asset('storage/'.$volunteer->photo)}}"
-                                                            class="img-fluid"
+                                                            class="img-fluid img-thumbnail"
                                                         />
                                                     </div>
                                                 </form>
@@ -174,16 +175,37 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form
-                                    action="{{route('volunteer.destroy', $volunteer->id)}}"
-                                    method="post"
-                                    class="d-inline"
-                                >
-                                    @csrf @method('delete')
-                                    <button class="btn btn-danger">
+                                <form action="{{ route('volunteer.destroy', $volunteer->id) }}" method="post" class="d-inline">
+                                    @csrf
+                                    @method('delete')
+
+                                    <!-- Tombol untuk memunculkan modal konfirmasi -->
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">
                                         <i class="fa fa-trash"></i>
                                     </button>
+
+                                    <!-- Modal konfirmasi -->
+                                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Hapus Data</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah Anda yakin ingin menghapus data ini?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
+
                             </td>
                         </tr>
                         @empty
