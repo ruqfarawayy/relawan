@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Encryption\DecryptException;
+use SoareCostin\FileVault\Facades\FileVault;
 
 class FileEncryptionController extends Controller
 {
@@ -51,15 +52,15 @@ class FileEncryptionController extends Controller
             $data = $request->all();
             $data['encryption_key'] = Crypt::encryptString($validatedData['encryption_key']);
             $data['information'] = $validatedData['information'];
-
             $file = $request->file('document');
-            $filePath = $file->store('assets/encrypted', 'public');
-            $encryptedFile = Crypt::encryptString(file_get_contents(storage_path('app/public/' . $filePath)));
+            $filename = Storage::putFile('assets/encrypted', $request->file('document'));
 
+            if ($filename) {
+                FileVault::encrypt($filename);
+            }
             $data['file_name'] = $file->getClientOriginalName();
             $data['file_size'] = $file->getSize();
-            $data['file_path'] = $filePath;
-            $data['document'] = $encryptedFile;
+            $data['file_path'] = $filename;
             $data['status'] = 1;
             FileEncryption::create($data);
             return redirect()->route('file_encryption.index')->with('create', 'Data berhasil ditambahkan');
@@ -100,37 +101,24 @@ class FileEncryptionController extends Controller
     public function update(Request $request, FileEncryption $file_encryption)
 {
     $id = $file_encryption->id;
-    $data = FileEncryption::findOrfail($id);
-    // dd($data);
+    $data = FileEncryption::findOrFail($id);
     $validatedPassword = $request->validate([
         'encryption_key' => 'required|min:6',
     ]);
-
-    try {
-        $decryptedEncryptionKey = Crypt::decryptString($data->encryption_key);
-
-        if ($validatedPassword['encryption_key'] !== $decryptedEncryptionKey) {
-            return redirect()->route('file_encryption.index')->with('error', 'Password yang Anda masukkan salah');
-        }
-        $encryptedContents = Storage::disk('public')->get($data->file_path);
-        // dd($encryptedContents);
-        $decryptedContents = Crypt::decryptString($encryptedContents);
-        dd($decryptedContents);
-        $tempFilePath = 'storage/' . $data->file_name;
-        Storage::disk('public')->put($tempFilePath, $decryptedContents);
-
-        $decryptedFilePath = Storage::disk('public')->path($tempFilePath);
-
-        $headers = [
-            'Content-Type' => Storage::disk('public/assets/encrypted')->mimeType($data->file_path),
-        ];
-
-        return response()->download($decryptedFilePath, $data->file_name, $headers)->deleteFileAfterSend(true);
-    } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-        return redirect()->route('file_encryption.index')->with('error', 'Gagal mendekripsi file. Pastikan password yang Anda masukkan benar.');
+    $filename = $data->file_name;
+    $filePath = $data->file_path;
+    $isFileExist = Storage::has($filePath . '.enc');
+    // Decrypt the encryption key
+    $decryptedEncryptionKey = Crypt::decryptString($data->encryption_key);
+    $isPasswordCorrect = $validatedPassword['encryption_key'] === $decryptedEncryptionKey;
+    // If the password is correct, download the decrypted file
+    if(!$isPasswordCorrect && $isFileExist){
+        return redirect()->route('file_encryption.index')->with('error', 'Password salah');
     }
+        return response()->streamDownload(function () use ($filePath) {
+            FileVault::streamDecrypt($filePath . '.enc');
+        }, $filename);
 }
-
 
     // /**
     //  * Remove the specified resource from storage.

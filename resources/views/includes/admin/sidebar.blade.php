@@ -45,7 +45,14 @@
             <span>Data Relawan</span></a
         >
     </li>
-
+    @if (Auth::user()->role == 'admin')
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('unit.index') }}">
+            <i class="fas fa-duotone fa-users"></i>
+            <span>Manajemen Unit</span></a
+        >
+    </li>
+    @endif
     <!-- Divider -->
     <hr class="sidebar-divider" />
 
@@ -59,24 +66,16 @@
             <span>Manajemen Dokumen</span></a
         >
     </li>
-     <!-- Divider -->
-     <hr class="sidebar-divider" />
 
-     <!-- Heading -->
-     <div class="sidebar-heading">Manajemen User</div>
-
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-user-cog"></i>
-            <span>Manajemen User</span></a
-        >
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Decrypt Pesan</span></a
-        >
-    </li>
+     <li class="nav-item">
+         <form method="post" action="{{ route('logout') }}">
+             @csrf
+            <button class="nav-link btn ">
+                <i class="fas fa-sign-out-alt"></i>
+                <small>Logout</small>
+            </button>
+        </form>
+        </li>
 
 
     <!-- Divider -->

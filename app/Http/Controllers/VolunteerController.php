@@ -123,7 +123,7 @@ class VolunteerController extends Controller
         $volunteer->update($data);
 
 
-        return redirect()->route('volunteer.index')->with('update', 'Data berhasil diubah');
+        return redirect()->route('volunteer.index')->with('success', 'Data berhasil diubah');
     }
 
     // /**

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\FileEncryptionController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VolunteerController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,7 @@ Route::prefix('admin')
             ->name('dashboard');
         Route::resource('volunteer', VolunteerController::class);
         Route::resource('file_encryption', FileEncryptionController::class);
+        Route::resource('unit', UnitController::class);
         });
 
 
