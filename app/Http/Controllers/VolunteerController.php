@@ -134,7 +134,8 @@ class VolunteerController extends Controller
     //  */
     public function destroy($id)
     {
-        Volunteer::findOrFail($id)->delete();
+        $item = Volunteer::findOrFail($id);
+        $item->delete();
         return redirect()->route('volunteer.index')->with('delete', 'Data berhasil dihapus');
     }
 }

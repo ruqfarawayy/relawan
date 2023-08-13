@@ -16,8 +16,10 @@ class UnitController extends Controller
     //  */
     public function index()
     {
-        $units = Unit::all();
-        return view('pages.admin.unit-management.index', compact('units'));
+        $unit = Unit::all();
+        return view('pages.admin.unit-management.index',
+    [
+        'units' => $unit]);
     }
 
     // /**
@@ -50,7 +52,7 @@ class UnitController extends Controller
                 $user = User::create([
                     'name' => $validated['name'],
                     'email' => $validated['email'],
-                    'password' => 'password',
+                    'password' => bcrypt('password'),
                     'role' => 'user',
                 ]);
                 $validated['user_id'] = $user->id;
@@ -64,12 +66,12 @@ class UnitController extends Controller
             }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Unit  $unit
-     * @return \Illuminate\Http\Response
-     */
+    // /**
+    //  * Display the specified resource.
+    //  *
+    //  * @param  \App\Models\Unit  $unit
+    //  * @return \Illuminate\Http\Response
+    //  */
     public function show(Unit $unit)
     {
         //
@@ -112,9 +114,13 @@ class UnitController extends Controller
     //  * @param  \App\Models\Unit  $unit
     //  * @return \Illuminate\Http\Response
     //  */
-    public function destroy(Unit $unit)
+    public function destroy($id)
     {
-            $unit->delete();
+        
+            dd($id);
+            // $unit->delete();
+            // Unit::findOrfail($id)->delete();
+            // $unit->user->delete();
             return redirect()->route('unit.index')
                 ->with('success', 'Unit deleted successfully');
     }

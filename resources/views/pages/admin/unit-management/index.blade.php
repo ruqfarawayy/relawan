@@ -141,17 +141,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form action="{{ route('unit.destroy', $unit->id) }}" method="post" class="d-inline">
-                                    @csrf
-                                    @method('delete')
+
 
                                     <!-- Tombol untuk memunculkan modal konfirmasi -->
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete{{$unit->id}}">
                                         <i class="fa fa-trash"></i>
                                     </button>
 
                                     <!-- Modal konfirmasi -->
-                                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="delete{{ $unit->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -161,16 +159,20 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Apakah Anda yakin ingin menghapus data ini?
+                                                    Apakah Anda yakin ingin menghapus <b>{{$unit->name}}</b> ?
                                                 </div>
                                                 <div class="modal-footer">
+                                                    <form action="{{ route('unit.destroy', $unit->id) }}" method="post" class="d-inline">
+                                                        @csrf
+                                                        @method('delete')
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                                     <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+
 
                             </td>
                         </tr>

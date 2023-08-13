@@ -137,7 +137,7 @@
                                         type="button"
                                         class="btn btn-danger"
                                         data-toggle="modal"
-                                        data-target="#confirmDeleteModal"
+                                        data-target="#delete{{ $file_encryption->id }}"
                                     >
                                         <i class="fa fa-trash"></i
                                         ><small>Delete Data</small>
@@ -146,7 +146,7 @@
                                     <!-- Modal konfirmasi -->
                                     <div
                                         class="modal fade"
-                                        id="confirmDeleteModal"
+                                        id="delete{{ $file_encryption->id }}"
                                         tabindex="-1"
                                         role="dialog"
                                         aria-labelledby="confirmDeleteModalLabel"
@@ -177,7 +177,8 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     Apakah Anda yakin ingin
-                                                    menghapus data ini?
+                                                    menghapus
+                                                    <b>"{{$file_encryption->file_name}}"</b> ?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button

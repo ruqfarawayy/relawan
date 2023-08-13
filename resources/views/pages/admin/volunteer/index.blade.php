@@ -3,7 +3,7 @@
 <div class="container-fluid">
     @include('includes.admin.flasher')
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between  mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Data Relawan</h1>
         <a
             href="{{ route('volunteer.create') }}"
@@ -39,8 +39,12 @@
                             <td>{{ $volunteer->name }}</td>
                             <td>{{ $volunteer->nra }}</td>
                             <td>{{ $volunteer->unit->name }}</td>
-                            <td>{{ $volunteer->gender == 'm' ? 'Laki Laki' : 'Perempuan'}}</td>
-                            <td>{{ $volunteer->status == 1 ? 'Active' : 'Inactive' }}</td>
+                            <td>
+                                {{ $volunteer->gender == 'm' ? 'Laki Laki' : 'Perempuan'}}
+                            </td>
+                            <td>
+                                {{ $volunteer->status == 1 ? 'Active' : 'Inactive' }}
+                            </td>
                             <td>
                                 <!-- Button trigger modal -->
                                 <button
@@ -145,7 +149,7 @@
                                                             class="col-form-label"
                                                             >Photo</label
                                                         >
-                                                        <br>
+                                                        <br />
                                                         <img
                                                             src="{{asset('storage/'.$volunteer->photo)}}"
                                                             class="img-fluid img-thumbnail"
@@ -176,37 +180,77 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form action="{{ route('volunteer.destroy', $volunteer->id) }}" method="post" class="d-inline">
-                                    @csrf
-                                    @method('delete')
 
-                                    <!-- Tombol untuk memunculkan modal konfirmasi -->
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
+                                <!-- Tombol untuk memunculkan modal konfirmasi -->
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    data-toggle="modal"
+                                    data-target="#delete{{$volunteer->id}}"
+                                >
+                                    <i class="fa fa-trash"></i>
+                                </button>
 
-                                    <!-- Modal konfirmasi -->
-                                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Hapus Data</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
+                                <!-- Modal konfirmasi -->
+                                <div
+                                    class="modal fade"
+                                    tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="confirmDeleteModalLabel"
+                                    aria-hidden="true"
+                                    id="delete{{$volunteer->id}}"
+                                >
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5
+                                                    class="modal-title"
+                                                    id="confirmDeleteModalLabel"
+                                                >
+                                                    Konfirmasi Hapus Data
+                                                </h5>
+                                                <button
+                                                    type="button"
+                                                    class="close"
+                                                    data-dismiss="modal"
+                                                    aria-label="Close"
+                                                >
+                                                    <span aria-hidden="true"
+                                                        >&times;</span
+                                                    >
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin ingin
+                                                menghapus
+                                                <b>{{ $volunteer->name }}</b>
+                                                ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form
+                                                    action="{{ route('volunteer.destroy', $volunteer->id) }}"
+                                                    method="post"
+                                                    class="d-inline"
+                                                >
+                                                    @csrf @method('delete')
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-secondary"
+                                                        data-dismiss="modal"
+                                                    >
+                                                        Batal
                                                     </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Apakah Anda yakin ingin menghapus data ini?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </div>
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-danger"
+                                                    >
+                                                        Hapus
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-
+                                </div>
                             </td>
                         </tr>
                         @empty
