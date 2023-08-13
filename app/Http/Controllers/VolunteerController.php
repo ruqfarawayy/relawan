@@ -10,6 +10,7 @@ use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VolunteerController extends Controller
 {
@@ -20,10 +21,19 @@ class VolunteerController extends Controller
     //  */
     public function index()
     {
-        $volunteer = Volunteer::with(['specialties', 'occupations', 'education', 'volunteerType', 'unit'])->get();
+        $isAdmin = Auth::user()->role == 'admin';
+        $query = Volunteer::with(['specialties', 'occupations', 'education', 'volunteerType', 'unit']);
 
+
+        if (!$isAdmin) {
+            $userId = auth()->user()->id;
+            $unitId = Unit::where('user_id', $userId)->get('id')->toArray();
+            $query->where('unit_id', $unitId);
+        }
+
+        $volunteers = $query->get();
         return view('pages.admin.volunteer.index', [
-            'volunteers' => $volunteer
+            'volunteers' => $volunteers
         ]);
     }
 
@@ -34,11 +44,16 @@ class VolunteerController extends Controller
     //  */
     public function create()
     {
+        $isAdmin = Auth::user()->role == 'admin';
         $specialties = Specialty::all();
         $occupations = Occupation::all();
         $educations = Education::all();
         $volunteerTypes = VolunteerType::all();
         $units = Unit::all();
+        if(!$isAdmin) {
+            $userId = auth()->user()->id;
+            $units = Unit::where('user_id', $userId)->get();
+        }
         return view('pages.admin.volunteer.create',[
             'specialties'=> $specialties,
             'occupations' => $occupations,
@@ -88,12 +103,17 @@ class VolunteerController extends Controller
     //  */
     public function edit($id)
     {
+        $isAdmin = Auth::user()->role == 'admin';
         $volunteers = Volunteer::findOrFail($id);
         $specialties = Specialty::all();
         $occupations = Occupation::all();
         $educations = Education::all();
         $volunteerTypes = VolunteerType::all();
         $units = Unit::all();
+        if(!$isAdmin) {
+            $userId = auth()->user()->id;
+            $units = Unit::where('user_id', $userId)->get();
+        }
         return view('pages.admin.volunteer.edit',[
             'volunteers' => $volunteers,
             'specialties'=> $specialties,

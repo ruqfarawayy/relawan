@@ -6,9 +6,12 @@
         <h1 class="h3 mb-0 text-gray-800">Tambah Data Relawan</h1>
     </div>
 
-    @if ($errors->any())
+    @if ($errors->any() || session('error'))
     <div class="alert-danger">
         <ul>
+            @if(session('error'))
+            <li>{{ session('error') }}</li>
+            @endif
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
             @endforeach
